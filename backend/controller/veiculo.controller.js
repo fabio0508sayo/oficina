@@ -2,14 +2,14 @@ const Veiculo = require("../model/Veiculo")
 const Cliente = require("../model/Cliente")
 
 const cadastrar = async (req, res) => {
-	const { modelo, marca, placa, rastreador, idCliente } = req.body
+	const valores = req.body
 
 	try {
-		const cliente = await Cliente.findByPk(idCliente)
+		const cliente = await Cliente.findByPk(valores.idCliente)
 		if (!cliente) return res.status(404).json({ message: "cliente inexistente" })
 
-		const veiculo = await Veiculo.create({ modelo, marca, placa, rastreador, idCliente })
-		return res.status(201).json(veiculo)
+		await Veiculo.create(valores)
+		return res.status(201).json({message:'cadastro feito com sucesso'})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ message: "erro ao cadastrar veículo" })

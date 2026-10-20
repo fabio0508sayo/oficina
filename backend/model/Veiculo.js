@@ -1,7 +1,7 @@
-const conn = require("../db/conn")
+const db = require("../db/conn")
 const { DataTypes } = require("sequelize")
 
-const Veiculo = conn.define(
+const Veiculo = db.define(
 	"veiculo",
 	{
 		idVeiculo: {
@@ -27,11 +27,11 @@ const Veiculo = conn.define(
 		},
 		idCliente: {
 			type: DataTypes.INTEGER,
+			allowNul: false,
 			references: {
 				model: "clientes",
 				key: "idCliente"
 			},
-			allowNul: false
 		}
 	},
 	{

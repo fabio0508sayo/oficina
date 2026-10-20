@@ -1,7 +1,7 @@
 const { Agendamento, Cliente, Veiculo } = require("./model/rel")
 const conn = require("./db/conn")
 
-;(async () => {
+async function database()  {
 	try {
 		console.log("sincronizando tabelas...")
 		await conn.sync({ force: true })
@@ -11,4 +11,5 @@ const conn = require("./db/conn")
 		await conn.close()
 		console.log("tabelas sincronizadas")
 	}
-})()
+}
+database()

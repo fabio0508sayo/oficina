@@ -36,5 +36,9 @@ POST http://localhost:3000/veiculo
 Content-Type: application/json
 
 {
-
+"modelo":"teste",
+"marca":"teste",
+"placa":"teste",
+"rastreador":"teste",
+"idCliente":"1"
 }

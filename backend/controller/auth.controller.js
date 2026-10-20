@@ -19,7 +19,7 @@ const login = async (req, res) => {
 				idCliente: cliente.idCliente,
 				expiraEm: tempoExpiracao
 			}),
-			process.env.segredo
+			"segredo"
 		).toString()
 
 		res.status(200).json({ token: token })

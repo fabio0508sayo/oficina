@@ -1,5 +1,3 @@
-require("dotenv").config()
-
 const cryptoJs = require("crypto-js")
 const authMiddleware = async (req, res, next) => {
 	const token = req.headers(["authorization"])
@@ -7,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
 	if (!token) return res.status(401).json({ message: "usuário não autenticado" })
 
 	try {
-		const bytes = cryptoJs.AES.decrypt(token, process.env.segredo)
+		const bytes = cryptoJs.AES.decrypt(token, "segredo")
 		const tokenDescriptografado = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)) || ""
 
 		if (!tokenDescriptografado) return res.status(401).json({ message: "usuário não autenticado" })
@@ -18,3 +16,4 @@ const authMiddleware = async (req, res, next) => {
 		return res.status(500).json({ message: "erro ao autenticar" })
 	}
 }
+module.exports=authMiddleware

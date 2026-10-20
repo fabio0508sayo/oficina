@@ -3,19 +3,21 @@ const cryptoJs = require("crypto-js")
 
 const cadastrar = async (req, res) => {
 	console.log(req.body)
-	const { nome, email, senha, cpf, endereco, telefone } = req.body
+	const valores= req.body
 
 	try {
-		const senhaCrypto = cryptoJs.AES.encrypt(senha, "segredo").toString()
-		const cpfCrypto = cryptoJs.AES.encrypt(cpf, "segredo").toString()
+		const senhaCrypto = cryptoJs.AES.encrypt(valores.senha, "segredo").toString()
+		const cpfCrypto = cryptoJs.AES.encrypt(valores.cpf, "segredo").toString()
 
-		const cliente = await Cliente.create({ nome, email, senha: senhaCrypto, cpf: cpfCrypto, endereco, telefone })
 
-		cliente.senha = undefined
-		res.status(201).json(cliente)
+		valores.senha = senhaCrypto
+		valores.cpf=cpfCrypto
+		await Cliente.create(valores)
+
+		res.status(201).json({message:'Cadastro feito com sucesso'})
 	} catch (error) {
 		console.log(error)
-		res.status(500).json({ message: "erro ao cadastrar" })
+		res.status(500).json({ message: "erro ao cadastrar" })	
 	}
 }
 
@@ -83,10 +85,11 @@ const deletar = async (req, res) => {
 
 	try {
 		const cliente = await Cliente.findByPk(id)
-		if (!cliente) return res.status(404).json({ message: "usuário não encontrado" })
+		if (!cliente){
+			 return res.status(404).json({ message: "usuário não encontrado" })}
 
 		await cliente.destroy()
-		return res.status(204).json()
+		return res.status(200).json({message:'Deletado com sucesso'})
 	} catch (error) {
 		return res.status(500).json({ message: "erro ao listar cliente" })
 	}
